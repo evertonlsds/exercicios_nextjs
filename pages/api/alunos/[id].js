@@ -3,6 +3,6 @@ export default function handler(req, res){
     res.status(200).json({ 
         id,
         nome: 'Daniel Lauria',
-        emai: " dan@hotmail.com"
+        email: " dan@hotmail.com"
     })
 }

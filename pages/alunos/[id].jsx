@@ -1,27 +1,38 @@
-export function getStaticPaths(){
+export async function getStaticPaths(){
+    const resp = await fetch('http://localhost:3000/api/alunos/tutores')
+    const ids = await resp.json()
+
+    const paths = ids.map(id => {
+        return {params: {id: `${id}`}}
+    })
+
     return {
         fallback: false,
-        paths:[
-            { params: {id: '107'} },
-            { params: {id: '108'} },
-            { params: {id: '109'} },
-
-        ]
+        paths
     }
 }
 
-export  function getStaticProps(){
+export async function getStaticProps({params}){
+    const resp = await fetch(`http://localhost:3000/api/alunos/${params.id}`)
+    const aluno = await resp.json()
     return{
-        props: {}
+        props: {
+            aluno
+        }
     }
 }
 
 
 
-export default function AlunoPorId(){
+export default function AlunoPorId(props){
     return(
         <div>
             <h1>DetalheAluno</h1>
+            <ul>
+                <li>{props.aluno.id}</li>
+                <li>{props.aluno.nome}</li>
+                <li>{props.aluno.email}</li>
+            </ul>
         </div>
     )
 }
